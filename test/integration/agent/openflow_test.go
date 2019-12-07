@@ -116,7 +116,7 @@ func testInitialize(t *testing.T, config *testConfig) {
 }
 
 func testInstallTunnelFlows(t *testing.T, config *testConfig) {
-	err := c.InstallTunnelFlows(config.tunnelOFPort)
+	err := c.InstallDefaultTunnelFlows(config.tunnelOFPort)
 	if err != nil {
 		t.Fatalf("Failed to install Openflow entries for tunnel port: %v", err)
 	}
@@ -137,7 +137,7 @@ func testInstallServiceFlows(t *testing.T, config *testConfig) {
 
 func testInstallNodeFlows(t *testing.T, config *testConfig) {
 	for _, node := range config.peers {
-		err := c.InstallNodeFlows("peer", config.localGateway.mac, node.gateway, node.subnet, node.nodeAddress)
+		err := c.InstallNodeFlows("peer", config.localGateway.mac, node.gateway, node.subnet, node.nodeAddress, config.tunnelOFPort)
 		if err != nil {
 			t.Fatalf("Failed to install Openflow entries for node connectivity: %v", err)
 		}
